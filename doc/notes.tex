@@ -1,0 +1,42 @@
+\documentclass{article}
+
+\title{Reverse engineering Lotus 1-2-3 file formats}
+\author{Geoffrey Mon (geofbot@gmail.com)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{File extensions}
+\begin{itemize}
+\item \textbf{.wks}: up to at least 1A
+\item \textbf{.wk1}: up to at least 2.2
+\item \textbf{.wk2}: apparently, some versions of 2.3+?
+\item \textbf{.wk3}: apparently, 3.x?
+  interestingly, not supported by SmartSuite 9.8
+\item \textbf{.wk4}: apparently, 4.x?
+\item \textbf{.123}: SmartSuite 9.8, others?
+\end{itemize}
+
+\section{Saving files}
+When Lotus 1-2-3 9.8 running on WINE saves to a file, if
+the new version of the file is shorter
+than the old version file, then the old
+data at the end of the file is not actually removed
+(at least when I remove the contents of one cell).
+In fact, an End-of-File record is written to the file at the
+appropriate position, leaving the existing data at the end
+as corrupted and unread records.
+I'm not sure if this is a consequence of using WINE,
+or if this is the behavior for all versions of the software.
+
+\textbf{However}, when explicitly overwriting one file with
+another file, the old file is completely removed and
+the new file is saved in its place.
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% TeX-engine: xetex
+%%% End:
