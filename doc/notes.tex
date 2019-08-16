@@ -33,6 +33,16 @@ or if this is the behavior for all versions of the software.
 \textbf{However}, when explicitly overwriting one file with
 another file, the old file is completely removed and
 the new file is saved in its place.
+
+\section{Quirks}
+All of the .wk1
+test files from openpreserve/format-corpus
+except KSBASE.WK1 have a peculiarity:
+their calculation mode records use 0x01 instead of 0x00 or 0xFF;
+according to the original repository some of these
+files were generated with Quattro Pro;
+perhaps this is a quirk of that particular software?
+
 \end{document}
 
 %%% Local Variables:

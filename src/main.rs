@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::PathBuf;
 use std::str;
 
 use byteorder::ByteOrder;
@@ -140,7 +141,9 @@ fn get_record(raw: RawRecord) -> Record {
         0x01 => Record::EndOfFile,
         0x02 => Record::CalcMode(match raw.dat[0] {
             0x00 => CalcMode::Manual,
-            0xFF => CalcMode::Automatic,
+            // TODO investigate 0x01
+            // as perhaps a quirk of Quattro Pro?
+            0x01 | 0xFF => CalcMode::Automatic,
             _ => panic!(),
         }),
         0x03 => Record::CalcOrder(match raw.dat[0] {
@@ -209,7 +212,9 @@ fn get_record(raw: RawRecord) -> Record {
 }
 
 fn main() {
-    let mut f = File::open("/home/gmon/Downloads/123/559535.wk1").unwrap();
+    let mut p = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    p.push("tests/data/KSBASE1.WK1");
+    let mut f = File::open(p.to_str().unwrap()).unwrap();
     let mut v: Vec<u8> = vec![];
     f.read_to_end(&mut v).unwrap();
     println!("{:?}", many1(map(parse_record, get_record))(&v));
