@@ -43,6 +43,58 @@ according to the original repository some of these
 files were generated with Quattro Pro;
 perhaps this is a quirk of that particular software?
 
+\section{Formats}
+\subsection{.wks, .wk1, .wk2}
+
+What's the difference between .wks, .wk1, and .wk2?
+
+.wk1 uses 64-bit double-precision floating point, but
+Lotus 1-2-3 2.x and 3.x (according to respective manuals, page 1-17)
+only supports values from 1E-99 to 9.99E+99.
+
+\subsection{.wk3}
+Supports 256 columns, 8192 rows.
+
+Addresses take the form of row (2 bytes), tab/sheet (1 byte), col (1
+byte).
+
+Numbers are encoded as 80-bit long doubles,
+although Lotus SmartSuite 9.8 does not support numbers larger
+than doubles (~1.8E308).
+
+Header:
+                tag: 0x0,
+                len: 0x1a,
+                dat: [
+                    0x0,  file version
+                    0x10, file version
+                    0x4, file sub (whatever that is)
+                    0x0, file sub
+                    0x0, active range start row
+                    0x0, active range start row
+                    0x0, active range start sheet
+                    0x0, active range start col
+                    0x6, active range end row
+                    0x0, active range end row
+                    0x0, active range end sheet
+                    0x2, active range end col
+                    0xe, total revisions
+                    0x0, total revisions
+                    0x30, major id?
+                    0x8d, minor id?
+                    0x1,
+                    0x2,
+                    0x0,
+                    0x0,
+                    0x0,
+                    0x1,
+                    0x0,
+                    0x0,
+                    0x0,
+                    0x1,
+                ],
+
+
 \end{document}
 
 %%% Local Variables:
